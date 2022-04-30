@@ -14,6 +14,27 @@
       <div><a href="applied.html">Applied Jobs</a></div>
       <div><a href="bookmark.html">Bookmarks</a></div>
     </div>
+<select id="shortNames" onChange="handlenamesort()">
+  <option>short by name</option>
+  <option value="asc">Ascending</option>
+  <option value="dec">Dscending</option>
+</select>
+
+
+
+<select id="shortsalary" onChange="handlesalarysort()">
+  <option>short by salary</option>
+  <option value="HTL">HTL</option>
+  <option value="LTH">LTH</option>
+</select>
+
+
+<select id="shortjob" onChange="handlejobsort()">
+  <option>job by category</option>
+  <option>FSD</option>
+  <option value="Frontend">frontend</option>
+  <option value="Backend">backend</option>
+</select>
 
     <main>
       <table>
@@ -35,10 +56,133 @@
   <script>
     //you need to code here
     var jobArr=JSON.parse(localStorage.getItem("joblist"))
+
+
+    function handlesalarysort(){
+
+var selected=document.querySelector("#shortsalary").value
+
+if(selected=="HTL"){
+
+jobArr.sort(function (a,b){
+
+return b.personsalary-a.personsalary;
+
+
+
+})
+console.log(jobArr)
+displayfunction(jobArr)
+
+
+
+
+}
+
+if(selected=="LTH"){
+
+
+jobArr.sort(function (a,b){
+
+return a.personsalary-b.personsalary;
+
+
+
+
+});
+console.log(jobArr)
+displayfunction(jobArr)
+
+}
+
+
+
+}
+
+
+
+function handlenamesort(){
+
+  var selected=document.querySelector("#shortNames").value
+
+if(selected=="asc")
+{
+jobArr.sort(function(a,b){
+
+var x=a.personname.toUpperCase();
+
+var y=b.personname.toUpperCase();
+
+
+
+  if(x>y){
+
+    return 1;
+  }
+if(x<y){
+
+  return -1;
+}
+else{
+  return 0;
+}
+
+})
+console.log(jobArr)
+
+displayfunction(jobArr)
+
+}
+
+if(selected=="dec")
+{
+jobArr.sort(function(a,b){
+
+var x=a.personname.toUpperCase();
+
+var y=b.personname.toUpperCase();
+
+
+
+  if(x<y){
+
+    return 1;
+  }
+if(x>y){
+
+  return -1;
+}
+else{
+  return 0;
+}
+
+})
+console.log(jobArr)
+displayfunction(jobArr)
+
+
+}
+
+}
+
+
+function handlejobsort()
+{
+  var selected=document.querySelector("#shortjob").value
+  
+    var filterList=jobArr.filter(function (elem){
+      return elem.personrole==selected
+    })
+    displayfunction(filterList)
+}
+
+
     // console.log(jobArr);
     displayfunction(jobArr)
     var bookmarkArr=JSON.parse(localStorage.getItem("bookmark"))||[]
     function displayfunction(data){
+
+      document.querySelector("tbody").innerHTML=""
 var sum=jobArr.reduce(function (acc,elem){
   return acc+Number(elem.personsalary);
 },0);
